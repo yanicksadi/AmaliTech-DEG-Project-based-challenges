@@ -1,8 +1,8 @@
-import { usestate } from "react";
-import data from "./data/data.json";
-import FileExplorer from "./components/FileExplorer.jsx";
-import PropertiesPanel from "./components/PropertiesPanel.jsx";
-import SearchBar from "./components/SearchBar.jsx"
+import { useState } from "react";
+import data from "./data.json";
+import FileExplorer from "./src/components/FileExplorer.jsx";
+import PropertiesPanel from "./src/components/PropertiesPanel.jsx";
+import SearchBar from "./src/components/SearchBar.jsx"
 
 function App(){
   const [selectedFile, setSelectedFile] = useState(null);
@@ -13,18 +13,18 @@ function App(){
       
       {/* search  */}
       <div style={{ padding: "10px" }}>
-        <searchBar onSearch={setSearch} />
+        <SearchBar OnSearch={setSearch} />
       </div>
       
       {/* the main layout */}
       <div style={{ display: "flex", height: "90%" }}>
         {/* the side Bar */}
         <div style={{width: "40%", borderRight: "1px solid #374151" }}>
-          <fileExplorer data={data} onSelect={setSelectedFile} />
+          <FileExplorer data={data} onSelect={setSelectedFile} />
         </div>
         {/* {The details Side} */}
         <div style={{ width: "60%" }}>
-          <propertiesPanel file={selectedFile}/>
+          <PropertiesPanel file={selectedFile}/>
         </div>
       </div>
      </div>
