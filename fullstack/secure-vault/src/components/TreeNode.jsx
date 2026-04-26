@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 
-const TreeNode = ({ node, onSelect, level = 0, search }) => {
+const TreeNode = ({ node, onSelect, level = 0, search, selectedFile }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const isFolder = node.type === "folder";
+  const isSelected = selectedFile?.id === node.id;
 
   useEffect(() => {
     if (search) {
@@ -21,10 +22,10 @@ const TreeNode = ({ node, onSelect, level = 0, search }) => {
 
 return ( 
   <div style={{ marginLeft: level * 16 }}>
-    <div onClick={handleClick} style={{cursor: "pointer", padding: "6px", borderRadius: "4px" }}> 
-      {isFolder ? (isOpen ? "folder" : "folder") : "file"}{node.name}
+    <div onClick={handleClick} style={{cursor: "pointer", padding: "10px", borderRadius: "10px", background: isSelected ? "#3B82F6" : "transparent"}}> 
+      {isFolder ? (isOpen ? "📁" : "📁") : "📄"}{node.name}
     </div>
-    {isFolder && isOpen && node.children?.map((child) => (<TreeNode key={child.id} node={child} onselect={onSelect} level={level + 1} search={search}/>))}
+    {isFolder && isOpen && node.children?.map((child) => (<TreeNode key={child.id} node={child} onselect={onSelect} level={level + 1} search={search} selectedFile={selectedFile}/>))}
   </div>
   );  
 };
