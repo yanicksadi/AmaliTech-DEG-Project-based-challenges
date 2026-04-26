@@ -24,7 +24,7 @@ function App(){
       <div style={{ display: "flex", height: "90%" }}>
         {/* the side Bar */}
         <div style={{width: "40%", borderRight: "1px solid #374151" }}>
-          <FileExplorer data={data} onSelect={setSelectedFile} />
+          <FileExplorer data={data} onSelect={setSelectedFile} search={search}/>
         </div>
         {/* {The details or the properties panel} */}
         <div style={{ width: "60%" }}>
