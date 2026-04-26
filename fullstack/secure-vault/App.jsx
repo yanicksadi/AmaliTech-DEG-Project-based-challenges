@@ -13,7 +13,7 @@ function App(){
   const filteredData = filterTree(data, search);
 
   return (
-      <div style={{ background: "#0B0F19", color: "#fff", height: "100vh" }}>
+      <div style={{ background: "#0b1631", color: "#fff", height: "100vh" }}>
       
       {/* search  */}
       <div style={{ padding: "10px" }}>
@@ -23,11 +23,11 @@ function App(){
       {/* the main layout */}
       <div style={{ display: "flex", height: "90%" }}>
         {/* the side Bar */}
-        <div style={{width: "40%", borderRight: "1px solid #374151" }}>
+        <div style={{width: "60%", borderRight: "1px solid #292d33" }}>
           <FileExplorer data={filteredData} onSelect={setSelectedFile} search={search} selectedFile={selectedFile}/>
         </div>
         {/* {The details or the properties panel} */}
-        <div style={{ width: "60%" }}>
+        <div style={{ width: "80%" }}>
           <PropertiesPanel file={selectedFile}/>
         </div>
       </div>
