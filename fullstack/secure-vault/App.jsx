@@ -13,67 +13,76 @@ function App(){
   const [search, setSearch] = useState("");
   
   const [expandedNodes, setExpandedNodes] = useState({});
-  const [focusedIndex, setFocusedIndex] = useState(0);
+  const [focusedId, setFocusedId] = useState(null);
   const filteredData = filterTree(data, search);
   const flatList = flattenTree(filteredData, expandedNodes);
+  
 
   useEffect(() => {
     if (!search) {
       setExpandedNodes({});
     } 
-    setFocusedIndex(0);
+    setFocusedId(null);
   }, [search]);
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if(!flatList.length) return;
+useEffect(() => {
+  const handleKeyDown = (e) => {
+    if (!flatList.length) return;
 
-      if (e.key === "ArrowDown") {
-        setFocusedIndex((prev) => Math.min(prev + 1, flatList.length - 1));
-      }
+    let currentIndex = flatList.findIndex(item => item.id === focusedId);
 
-      if (e.key === "ArrowUp") {
-        setFocusedIndex((prev) => Math.max(prev - 1, 0));
-      }
+    if (currentIndex === -1 && flatList.length > 0) {
+      setFocusedId(flatList[0].id);
+      return;
+    }
 
-      // if (e.key === "Enter") {
-      //   const node = flatList[focusedIndex];
-      //   if (node.type === "file") {
-      //     setSelectedFile(node);
-      //   }
-      // }
+    const node = flatList[currentIndex];
+    if (!node) {
+      return;
+    }
 
-      if (e.key === "ArrowRight" || e.key === "Enter"){
-        const node = flatList[focusedIndex];
-        if (node.type === "folder"){
-          setExpandedNodes((prev) => ({
-            ...prev, [node.id]: true,
-          }));
-        } 
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const nextIndex = Math.min(currentIndex + 1, flatList.length - 1);
+      setFocusedId(flatList[nextIndex].id);
+    }
 
-      if (node.type === "file"){
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prevIndex = Math.max(currentIndex - 1, 0);
+      setFocusedId(flatList[prevIndex].id);
+    }
+
+
+    if (e.key === "ArrowRight" || e.key === "Enter") {
+      if (node.type === "folder") {
+        setExpandedNodes(prev => ({
+          ...prev,
+          [node.id]: true,
+        }));
+      } else if (node.type === "file"){
         setSelectedFile(node);
       }
-      }
+    }
 
-      if (e.key === "ArrowLeft") {
-        const node = flatList[focusedIndex];
-        if (node.type === "folder") {
-          setExpandedNodes((prev) => ({
-            ...prev, [node.id]: false,
-          }));
-        }
+    if (e.key === "ArrowLeft") {
+      if (node.type === "folder") {
+        setExpandedNodes(prev => ({
+          ...prev,
+          [node.id]: false,
+        }));
       }
-    };
+    }
+  };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [flatList, focusedIndex]);
+  window.addEventListener("keydown", handleKeyDown);
+  return () => window.removeEventListener("keydown", handleKeyDown);
+}, [flatList, focusedId]);
 
   return (
-      <div style={{ background: "#0b1631", color: "#fff", minHeight: "100vh" }}>
+      <div style={{ background: "#0B0F19", color: "#fff", minHeight: "100vh" }}>
       
-      {/* search  */}
+      {/* searching space */}
       <div style={{ padding: "10px" }}>
         <SearchBar OnSearch={setSearch} />
       </div>
@@ -91,9 +100,8 @@ function App(){
           selectedFile={selectedFile}
           expandedNodes = {expandedNodes}
           setExpandedNodes={setExpandedNodes}
-          flatList={flatList}
-          focusedIndex={focusedIndex}
-
+          focusedId={focusedId}
+          setFocusedId={setFocusedId}
           />
         </div>
 

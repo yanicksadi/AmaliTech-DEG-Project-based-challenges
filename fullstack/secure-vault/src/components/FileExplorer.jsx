@@ -7,8 +7,9 @@ const FileExplorer = ({
   selectedFile, 
   expandedNodes, 
   setExpandedNodes, 
-  flatList, 
-  focusedIndex }) => {
+  focusedId,
+  setFocusedId,
+}) => {
   if (!data || data.length === 0) {
     return (
       <div style={{ padding: "10px", color: "#9CA3AF" }}>
@@ -19,15 +20,17 @@ const FileExplorer = ({
   return (
   <div style={{ padding: "10px" }}>
       {data.map((node) => (
-        <TreeNode key={node.id} 
+        <TreeNode 
+        key={node.id} 
         node={node} 
         onSelect={onSelect} 
         search={search} 
         selectedFile={selectedFile} 
         expandedNodes={expandedNodes} 
         setExpandedNodes={setExpandedNodes} 
-        flatList={flatList} 
-        focusedIndex={focusedIndex} 
+        focusedId={focusedId}
+        setFocusedId={setFocusedId}
+
       />
     ))}
   </div>

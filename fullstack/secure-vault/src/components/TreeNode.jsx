@@ -12,12 +12,12 @@ const TreeNode = ({
   selectedFile,
   expandedNodes = {},
   setExpandedNodes,
-  flatList = [],
-  focusedIndex, 
+  focusedId,
+  setFocusedId,
 }) => {
   const isFolder = node.type === "folder";
   const isOpen = expandedNodes[node.id];
-  const isFocused = flatList[focusedIndex]?.id === node.id;
+  const isFocused = focusedId === node.id;
   const isSelected = selectedFile?.id === node.id;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -31,9 +31,11 @@ const TreeNode = ({
         [node.id]: true,
       }));
     }
-  }, [search]);
+  }, [search, isFolder, node.id, setExpandedNodes]);
 
   const handleClick = () => {
+    setFocusedId(node.id);
+    
     if (isFolder) {
       setExpandedNodes((prev) => ({
         ...prev,
@@ -55,11 +57,15 @@ return (
     onClick={handleClick} 
       style={{
         cursor: "pointer", 
-        padding: "10px", 
-        borderRadius: "10px", 
+        padding: "6px 8px", 
+        gap: "10px",
+        borderRadius: "7px", 
         background: isSelected ? "#3B82F6" : isFocused ? "#475c7e" : "transparent", 
         display : "flex", 
-        alignItems: "center"
+        alignItems: "center",
+        fontSize: "14px",
+        height: "36px",
+        lineHeight: "1"
       }}
     > 
      {isEditing ? (
@@ -71,22 +77,43 @@ return (
             if (e.key === "Enter") handleRename();
           }}
           autoFocus
-          style={{background: "#111827",
+          style={{
+            flex: 1,
+            background: "#111827",
             color: "#fff",
             border: "1px solid #374151",
-            borderRadius: "4px",
+            borderRadius: "8px",
             padding: "2px 6px",
           }}
         />
      ) : (
-        <span onDoubleClick={() => setIsEditing(true)}>
-          {isFolder ? (isOpen ? openFolderIcon : folderIcon) : fileIcon} {node.name}
-        </span>
-     )};
+        <>
+
+          <img src={isFolder ? (isOpen ? openFolderIcon : folderIcon) : fileIcon}
+          alt="icon"
+          style={{
+            width: "20px",
+            height: "20px",
+            minWidth: "20px",
+            objectFit: "contain",
+          }}
+          />
+          <span 
+          onDoubleClick={() => setIsEditing(true)}
+          style={{
+            flex: 1,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}  
+          >
+            {node.name}
+          </span>
+
+        </>
+     )}
     </div>
-    {isFolder && 
-    isOpen && 
-    node.children?.map((child) => (
+    {isFolder && isOpen && node.children?.map((child) => (
     <TreeNode 
     key={child.id} 
     node={child} 
@@ -96,8 +123,8 @@ return (
     selectedFile={selectedFile}
     expandedNodes={expandedNodes}
     setExpandedNodes={setExpandedNodes}
-    flatList={flatList}
-    focusedIndex={focusedIndex}
+    focusedId={focusedId}
+    setFocusedId={setFocusedId}
     />
     ))}
   </div>
