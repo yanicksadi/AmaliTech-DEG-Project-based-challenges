@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import openFolderIcon from "../assets/icons/open-folder.png";
-import fileIcon from "../assets/icons/document.png";
+import fileIcon from "../assets/icons/documents.png";
 import folderIcon from "../assets/icons/folder.png";
 
 
@@ -47,9 +47,26 @@ const TreeNode = ({
   };
 
   const handleRename = () => {
-    node.name = name;
+
+    const trimmedName = name.trim();
+    if (trimmedName === "") {
+      setName(node.name)
+    } else {
+      node.name = trimmedName;
+      setName(trimmedName);
+    }
     setIsEditing(false);
-  }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleRename();
+    }
+    if (e.key === "Escape"){
+      setName(node.name);
+      setIsEditing(false)
+    }
+  };
 
 return ( 
   <div style={{ marginLeft: level * 16 }}>
@@ -63,9 +80,8 @@ return (
         background: isSelected ? "#3B82F6" : isFocused ? "#475c7e" : "transparent", 
         display : "flex", 
         alignItems: "center",
-        fontSize: "14px",
+        fontSize: "17px",
         height: "36px",
-        lineHeight: "1"
       }}
     > 
      {isEditing ? (
