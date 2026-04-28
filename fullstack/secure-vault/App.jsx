@@ -84,7 +84,7 @@ useEffect(() => {
       
       {/* searching space */}
       <div style={{ padding: "10px" }}>
-        <SearchBar OnSearch={setSearch} />
+        <SearchBar onSearch={setSearch} />
       </div>
       
       {/* the main layout */}
