@@ -1,6 +1,6 @@
 import TreeNode from "./TreeNode.jsx";
 
-const FileExplorer = ({ 
+export const FileExplorer = ({ 
   data, 
   onSelect, 
   search, 
@@ -36,5 +36,3 @@ const FileExplorer = ({
   </div>
   );
 };
-
-export default FileExplorer;

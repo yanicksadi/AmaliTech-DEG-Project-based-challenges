@@ -1,9 +1,9 @@
-const SearchBar = ({ onSearch }) => {
+export const SearchBar = ({ onSearch }) => {
   return (
     <input 
       type="text" 
       placeholder="search files ..." 
-      onChange={(e) => OnSearch(e.target.value)} style={{ 
+      onChange={(e) => onSearch(e.target.value)} style={{ 
         width: "95%", 
         padding: "10px", 
         background: "#000000", 
@@ -14,5 +14,3 @@ const SearchBar = ({ onSearch }) => {
     />
   );
 };
-
-export default SearchBar;

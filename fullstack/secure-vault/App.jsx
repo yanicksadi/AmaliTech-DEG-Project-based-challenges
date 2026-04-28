@@ -1,8 +1,8 @@
 import { useState,useEffect } from "react";
 import data from "./data.json";
-import FileExplorer from "./src/components/FileExplorer.jsx";
+import {FileExplorer} from "./src/components/FileExplorer.jsx";
 import PropertiesPanel from "./src/components/PropertiesPanel.jsx";
-import  SearchBar  from "./src/components/SearchBar.jsx"
+import {SearchBar} from "./src/components/SearchBar.jsx"
 import { filterTree }  from "./src/utils/filterTree.js"
 import { flattenTree }  from "./src/utils/flattenTree.js";
 
