@@ -22,6 +22,7 @@ const TreeNode = ({
 
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(node.name)
+  const [error, setError] = useState("");
   
 
   useEffect(() => {
@@ -50,13 +51,18 @@ const TreeNode = ({
 
     const trimmedName = name.trim();
     if (trimmedName === "") {
-      setName(node.name)
-    } else {
-      node.name = trimmedName;
-      setName(trimmedName);
+      setError("Name can't be Empty");
+      setName(node.name);
+      setIsEditing(false);
+      setTimeout(() => setError(""), 2000);
+      return; 
     }
-    setIsEditing(false);
+    setError("");
+    node.name = trimmedName;
+    setName(trimmedName);
+    setIsEditing(false);  
   };
+    
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -64,7 +70,8 @@ const TreeNode = ({
     }
     if (e.key === "Escape"){
       setName(node.name);
-      setIsEditing(false)
+      setIsEditing(false);
+      setError("");
     }
   };
 
@@ -89,9 +96,7 @@ return (
           value={name}
           onChange={(e) => setName(e.target.value)}
           onBlur={handleRename}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleRename();
-          }}
+          onKeyDown={handleKeyDown}
           autoFocus
           style={{
             flex: 1,
@@ -129,6 +134,18 @@ return (
         </>
      )}
     </div>
+
+    {error && (
+      <div style={{
+        color: "#ef4444",
+        fontSize: "12px",
+        marginTop: "4px",
+        marginLeft: level * 16 + 30
+      }}>
+        {error}
+      </div>
+    )}
+
     {isFolder && isOpen && node.children?.map((child) => (
     <TreeNode 
     key={child.id} 
