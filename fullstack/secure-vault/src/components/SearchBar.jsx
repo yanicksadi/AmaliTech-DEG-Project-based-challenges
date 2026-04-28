@@ -1,4 +1,4 @@
-const SearchBar = ({ OnSearch }) => {
+const SearchBar = ({ onSearch }) => {
   return (
     <input 
       type="text" 
