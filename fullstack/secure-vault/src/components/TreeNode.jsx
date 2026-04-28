@@ -52,7 +52,6 @@ const TreeNode = ({
     const trimmedName = name.trim();
     if (trimmedName === "") {
       setError("Name can't be Empty");
-      setName(node.name);
       setIsEditing(false);
       setTimeout(() => setError(""), 2000);
       return; 
